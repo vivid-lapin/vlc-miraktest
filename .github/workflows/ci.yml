@@ -1,0 +1,42 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - "**"
+    tags-ignore:
+      - "**"
+    paths-ignore:
+      - .gitignore
+      - LICENSE
+      - "**.md"
+  pull_request:
+    paths-ignore:
+      - .gitignore
+      - LICENSE
+      - "**.md"
+
+jobs:
+  build-macos:
+    runs-on: macos-latest
+
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          repository: "videolan/vlc-3.0"
+          ref: 41878ff4f2a4b566cf0a1bd15f72037b2be98a18 # 3.0.14
+      - name: Prepare
+        run: mkdir build
+      - name: Build
+        run: |
+          ../extras/package/macosx/build.sh -c
+        working-directory: ./build
+      - name: Check
+        run: ls -la
+      - name: Pack build artifact
+        run: zip -rq build.zip ./build
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: mac-build
+          path: build.zip
