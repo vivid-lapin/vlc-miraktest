@@ -17,7 +17,7 @@ index 46272ea1758..5eadf74a7bd 100644
 -        arib_parse_pes( p_parser, p_block->p_buffer, p_block->i_buffer );
 -        subpicture_t *p_spu = render( p_dec, p_parser, p_decoder, p_block );
 +        char *b64 = vlc_b64_encode_binary(p_block->p_buffer, p_block->i_buffer);
-+        msg_Dbg(p_dec, "priv_data [%s]", b64);
++        msg_Dbg(p_dec, "arib_data [%s]", b64);
 +        free(b64);
 +        arib_parse_pes(p_parser, p_block->p_buffer, p_block->i_buffer);
 +        /*subpicture_t *p_spu = render( p_dec, p_parser, p_decoder, p_block );
