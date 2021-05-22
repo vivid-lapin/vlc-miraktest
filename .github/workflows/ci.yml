@@ -35,7 +35,7 @@ jobs:
           mkdir build
       - name: Build
         run: |
-          ../extras/package/macosx/build.sh -c
+          ../extras/package/macosx/build.sh -c -i n
         working-directory: ./build
       - name: Check
         run: ls -la
