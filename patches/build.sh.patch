@@ -1,0 +1,13 @@
+diff --git a/extras/package/macosx/build.sh b/extras/package/macosx/build.sh
+index 8c16fb711..aa59fef11 100755
+--- a/extras/package/macosx/build.sh
++++ b/extras/package/macosx/build.sh
+@@ -248,7 +248,7 @@ export XCODE_FLAGS="MACOSX_DEPLOYMENT_TARGET=$MINIMAL_OSX_VERSION -sdk macosx WA
+ info "Building contribs"
+ spushd "${vlcroot}/contrib"
+ mkdir -p contrib-$HOST_TRIPLET && cd contrib-$HOST_TRIPLET
+-../bootstrap --build=$BUILD_TRIPLET --host=$HOST_TRIPLET > $out
++../bootstrap --build=$BUILD_TRIPLET --host=$HOST_TRIPLET --disable-libarchive > $out
+ if [ "$REBUILD" = "yes" ]; then
+     make clean
+ fi
