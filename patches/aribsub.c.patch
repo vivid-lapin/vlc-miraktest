@@ -1,5 +1,5 @@
 diff --git a/modules/codec/arib/aribsub.c b/modules/codec/arib/aribsub.c
-index 46272ea1758..9391cd1aa5f 100644
+index 46272ea1758..afbba870337 100644
 --- a/modules/codec/arib/aribsub.c
 +++ b/modules/codec/arib/aribsub.c
 @@ -27,6 +27,7 @@
@@ -17,7 +17,7 @@ index 46272ea1758..9391cd1aa5f 100644
 -        arib_parse_pes( p_parser, p_block->p_buffer, p_block->i_buffer );
 -        subpicture_t *p_spu = render( p_dec, p_parser, p_decoder, p_block );
 +        char *b64 = vlc_b64_encode_binary(p_block->p_buffer, p_block->i_buffer);
-+        msg_Dbg(p_dec, "arib_data [%s][%f][%f]", b64, p_block->i_pts, p_block->i_length);
++        msg_Dbg(p_dec, "arib_data [%s][%" PRId64 "][%" PRId64 "]", b64, p_block->i_pts, p_block->i_length);
 +        free(b64);
 +        arib_parse_pes(p_parser, p_block->p_buffer, p_block->i_buffer);
 +        /*subpicture_t *p_spu = render( p_dec, p_parser, p_decoder, p_block );
