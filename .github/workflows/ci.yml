@@ -47,3 +47,13 @@ jobs:
         with:
           name: mac-build
           path: build.zip
+      - name: Upload dmg artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: mac-aribsub-dylib
+          path: build/vlc_install_dir/lib/vlc/plugins/codec/libaribsub_plugin.dylib
+      - name: Upload dmg artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: mac-build-image
+          path: build/*.dmg
