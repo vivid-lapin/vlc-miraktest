@@ -1,5 +1,5 @@
 diff --git a/modules/codec/arib/aribsub.c b/modules/codec/arib/aribsub.c
-index 46272ea1758a..dcae414aa82c 100644
+index 46272ea1758a..7ddfd8d9cda9 100644
 --- a/modules/codec/arib/aribsub.c
 +++ b/modules/codec/arib/aribsub.c
 @@ -27,6 +27,7 @@
@@ -19,23 +19,18 @@ index 46272ea1758a..dcae414aa82c 100644
  //#define DEBUG_ARIBSUB 1
  
  /*****************************************************************************
-@@ -177,10 +180,13 @@ static int Decode( decoder_t *p_dec, block_t *p_block )
+@@ -177,7 +180,10 @@ static int Decode( decoder_t *p_dec, block_t *p_block )
      arib_decoder_t *p_decoder = arib_get_decoder( p_sys->p_arib_instance );
      if ( p_parser && p_decoder )
      {
 -        arib_parse_pes( p_parser, p_block->p_buffer, p_block->i_buffer );
--        subpicture_t *p_spu = render( p_dec, p_parser, p_decoder, p_block );
 +        char *b64 = vlc_b64_encode_binary(p_block->p_buffer, p_block->i_buffer);
 +        msg_Dbg(p_dec, "arib_data [%s][%" PRId64 "]", b64, p_block->i_pts);
 +        free(b64);
 +        arib_parse_pes(p_parser, p_block->p_buffer, p_block->i_buffer);
-+        /*subpicture_t *p_spu = render( p_dec, p_parser, p_decoder, p_block );
+         subpicture_t *p_spu = render( p_dec, p_parser, p_decoder, p_block );
          if( p_spu != NULL )
--            decoder_QueueSub( p_dec, p_spu );
-+            decoder_QueueSub( p_dec, p_spu );*/
-     }
- 
-     block_Release( p_block );
+             decoder_QueueSub( p_dec, p_spu );
 diff --git a/modules/demux/mpeg/ts.c b/modules/demux/mpeg/ts.c
 index 3dbe52775694..af2e308116bf 100644
 --- a/modules/demux/mpeg/ts.c
