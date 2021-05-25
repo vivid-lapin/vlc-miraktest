@@ -36,15 +36,3 @@ index 46272ea1758a..dcae414aa82c 100644
      }
  
      block_Release( p_block );
-diff --git a/modules/demux/mpeg/ts.c b/modules/demux/mpeg/ts.c
-index 3dbe52775694..af2e308116bf 100644
---- a/modules/demux/mpeg/ts.c
-+++ b/modules/demux/mpeg/ts.c
-@@ -2192,6 +2192,7 @@ static void ProgramSetPCR( demux_t *p_demux, ts_pmt_t *p_pmt, mtime_t i_pcr )
-     {
-         p_pmt->pcr.i_first = i_pcr; // now seen
-     }
-+    msg_Dbg(p_demux, "i_pcr [%" PRId64 "][%" PRId64 "]", i_pcr, p_pmt->pcr.i_first);
- 
-     if ( p_sys->i_pmt_es )
-     {
