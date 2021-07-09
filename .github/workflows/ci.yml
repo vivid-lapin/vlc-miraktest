@@ -64,3 +64,51 @@ jobs:
         with:
           name: mac-build-image
           path: build/*.dmg
+
+  build-windows:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          repository: "videolan/vlc-3.0"
+          ref: 41878ff4f2a4b566cf0a1bd15f72037b2be98a18 # 3.0.14
+      - uses: actions/checkout@v2
+        with:
+          path: vlc-build
+      - name: Install build tools
+        run: |
+          sudo apt-get update -y
+          sudo apt-get install \
+            gcc-mingw-w64-x86-64 g++-mingw-w64-x86-64 mingw-w64-tools \
+            lua5.2 libtool automake autoconf autopoint make gettext pkg-config \
+            wine64-development-tools libwine-dev \
+            gperf
+          sudo ln -sf /usr/include/wine/wine/* /usr/include/wine
+      - name: Prepare
+        run: |
+          patch -p1 < vlc-build/patches/build.sh.patch
+          patch -p1 < vlc-build/patches/aribsub.c.patch
+          patch -p1 < vlc-build/patches/mpegts.c.patch
+          patch -p1 < vlc-build/patches/configure.ac.patch
+          mkdir build
+      - name: Build
+        run: |
+          ../extras/package/win32/build.sh -z
+        working-directory: ./build
+      - name: Packaging
+        run: |
+          make package-win32-zip
+        working-directory: ./build/win64
+      - name: Check
+        run: ls -la
+        working-directory: ./build/win64
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: windows-build
+          path: |
+            build/win64/vlc-3.0.14/*.txt
+            build/win64/vlc-3.0.14/libvlc.dll
+            build/win64/vlc-3.0.14/libvlccore.dll
+            build/win64/vlc-3.0.14/plugins
