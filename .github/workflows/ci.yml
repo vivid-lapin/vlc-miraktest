@@ -45,6 +45,7 @@ jobs:
           patch -p1 < vlc-build/patches/aribsub.c.patch
           patch -p1 < vlc-build/patches/mpegts.c.patch
           patch -p1 < vlc-build/patches/configure.ac.patch
+          patch -p1 < vlc-build/patches/core.c.patch
           mkdir build
       - name: Build
         run: |
@@ -104,6 +105,7 @@ jobs:
           patch -p1 < vlc-build/patches/aribsub.c.patch
           patch -p1 < vlc-build/patches/mpegts.c.patch
           patch -p1 < vlc-build/patches/configure.ac.patch
+          patch -p1 < vlc-build/patches/core.c.patch
           mkdir build
       - name: Build
         run: |
