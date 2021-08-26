@@ -1,11 +1,11 @@
 diff --git a/configure.ac b/configure.ac
-index cc2037594b2c..f73e55e97ed1 100644
+index 7db5256a84..3dfd82a9f4 100644
 --- a/configure.ac
 +++ b/configure.ac
-@@ -6,8 +6,8 @@ AC_INIT(vlc, 3.0.14)
+@@ -6,8 +6,8 @@ AC_INIT(vlc, 3.0.16)
  VERSION_MAJOR=3
  VERSION_MINOR=0
- VERSION_REVISION=14
+ VERSION_REVISION=16
 -VERSION_EXTRA=0
 -VERSION_DEV=
 +VERSION_EXTRA=999

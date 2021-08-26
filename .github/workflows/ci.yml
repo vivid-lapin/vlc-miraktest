@@ -34,8 +34,8 @@ jobs:
     steps:
       - uses: actions/checkout@v2
         with:
-          repository: "videolan/vlc-3.0"
-          ref: 41878ff4f2a4b566cf0a1bd15f72037b2be98a18 # 3.0.14
+          repository: "videolan/vlc"
+          ref: 5e70837d8d766db6ca5052a2d4f503ad37243d9c # 3.0.16
       - uses: actions/checkout@v2
         with:
           path: vlc-build
@@ -85,8 +85,8 @@ jobs:
     steps:
       - uses: actions/checkout@v2
         with:
-          repository: "videolan/vlc-3.0"
-          ref: 41878ff4f2a4b566cf0a1bd15f72037b2be98a18 # 3.0.14
+          repository: "videolan/vlc"
+          ref: 5e70837d8d766db6ca5052a2d4f503ad37243d9c # 3.0.16
       - uses: actions/checkout@v2
         with:
           path: vlc-build
@@ -123,7 +123,7 @@ jobs:
         with:
           name: windows-build
           path: |
-            build/win64/vlc-3.0.14/*.txt
-            build/win64/vlc-3.0.14/libvlc.dll
-            build/win64/vlc-3.0.14/libvlccore.dll
-            build/win64/vlc-3.0.14/plugins
+            build/win64/vlc-3.0.16/*.txt
+            build/win64/vlc-3.0.16/libvlc.dll
+            build/win64/vlc-3.0.16/libvlccore.dll
+            build/win64/vlc-3.0.16/plugins
