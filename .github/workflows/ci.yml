@@ -45,7 +45,7 @@ jobs:
           patch -p1 < vlc-build/patches/aribsub.c.patch
           patch -p1 < vlc-build/patches/mpegts.c.patch
           patch -p1 < vlc-build/patches/configure.ac.patch
-          patch -p1 < vlc-build/patches/core.c.patch
+          patch -p1 < vlc-build/patches/src_libvlc_c.patch
           mkdir build
           brew install gnutls
       - name: Build
@@ -106,7 +106,7 @@ jobs:
           patch -p1 < vlc-build/patches/aribsub.c.patch
           patch -p1 < vlc-build/patches/mpegts.c.patch
           patch -p1 < vlc-build/patches/configure.ac.patch
-          patch -p1 < vlc-build/patches/core.c.patch
+          patch -p1 < vlc-build/patches/src_libvlc_c.patch
           mkdir build
       - name: Build
         run: |
