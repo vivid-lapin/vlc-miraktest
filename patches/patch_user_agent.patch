@@ -1,0 +1,69 @@
+diff --git a/bin/darwinvlc.m b/bin/darwinvlc.m
+index 022c559b44..7f16c5690e 100644
+--- a/bin/darwinvlc.m
++++ b/bin/darwinvlc.m
+@@ -291,7 +291,7 @@ int main(int i_argc, const char *ppsz_argv[])
+     int ret = 1;
+     libvlc_set_exit_handler(vlc, vlc_terminate, NULL);
+     libvlc_set_app_id(vlc, "org.VideoLAN.VLC", PACKAGE_VERSION, PACKAGE_NAME);
+-    libvlc_set_user_agent(vlc, "VLC media player", "VLC/"PACKAGE_VERSION);
++    libvlc_set_user_agent(vlc, "VLC media player", "VLC/"PACKAGE_VERSION" vlc-miraktest (+https://github.com/vivid-lapin/vlc-miraktest)");
+ 
+     libvlc_add_intf(vlc, "hotkeys,none");
+ 
+diff --git a/bin/vlc.c b/bin/vlc.c
+index 72e0eee428..7b44194c06 100644
+--- a/bin/vlc.c
++++ b/bin/vlc.c
+@@ -235,7 +235,7 @@ int main( int i_argc, const char *ppsz_argv[] )
+     int ret = 1;
+     libvlc_set_exit_handler (vlc, vlc_kill, &self);
+     libvlc_set_app_id (vlc, "org.VideoLAN.VLC", PACKAGE_VERSION, PACKAGE_NAME);
+-    libvlc_set_user_agent (vlc, "VLC media player", "VLC/"PACKAGE_VERSION);
++    libvlc_set_user_agent (vlc, "VLC media player", "VLC/"PACKAGE_VERSION" vlc-miraktest (+https://github.com/vivid-lapin/vlc-miraktest)");
+ 
+     libvlc_add_intf (vlc, "hotkeys,none");
+ #if !defined (__OS2__)
+diff --git a/bin/winvlc.c b/bin/winvlc.c
+index e576547dc4..beb221483e 100644
+--- a/bin/winvlc.c
++++ b/bin/winvlc.c
+@@ -252,7 +252,7 @@ int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance,
+     {
+         libvlc_set_app_id (vlc, "org.VideoLAN.VLC", PACKAGE_VERSION,
+                            PACKAGE_NAME);
+-        libvlc_set_user_agent (vlc, "VLC media player", "VLC/"PACKAGE_VERSION);
++        libvlc_set_user_agent (vlc, "VLC media player", "VLC/"PACKAGE_VERSION" vlc-miraktest (+https://github.com/vivid-lapin/vlc-miraktest)");
+         libvlc_add_intf (vlc, "hotkeys,none");
+         libvlc_add_intf (vlc, "globalhotkeys,none");
+         libvlc_add_intf (vlc, NULL);
+diff --git a/lib/core.c b/lib/core.c
+index 5e8c614c83..c9b91f52eb 100644
+--- a/lib/core.c
++++ b/lib/core.c
+@@ -139,7 +139,7 @@ void libvlc_set_user_agent (libvlc_instance_t *p_i,
+ 
+     var_SetString (p_libvlc, "user-agent", name);
+     if ((http != NULL)
+-     && (asprintf (&str, "%s LibVLC/"PACKAGE_VERSION, http) != -1))
++     && (asprintf (&str, "%s LibVLC/"PACKAGE_VERSION" vlc-miraktest (+https://github.com/vivid-lapin/vlc-miraktest)", http) != -1))
+     {
+         var_SetString (p_libvlc, "http-user-agent", str);
+         free (str);
+diff --git a/src/libvlc.c b/src/libvlc.c
+index 25f7c7d6d2..65f33988bf 100644
+--- a/src/libvlc.c
++++ b/src/libvlc.c
+@@ -269,10 +269,10 @@ int libvlc_InternalInit( libvlc_int_t *p_libvlc, int i_argc,
+      * (in place of VLC main()) *here*. */
+     var_Create( p_libvlc, "user-agent", VLC_VAR_STRING );
+     var_SetString( p_libvlc, "user-agent",
+-                   "VLC media player (LibVLC "VERSION")" );
++                   "VLC media player (LibVLC "VERSION") vlc-miraktest (+https://github.com/vivid-lapin/vlc-miraktest)" );
+     var_Create( p_libvlc, "http-user-agent", VLC_VAR_STRING );
+     var_SetString( p_libvlc, "http-user-agent",
+-                   "VLC/"PACKAGE_VERSION" LibVLC/"PACKAGE_VERSION );
++                   "VLC/"PACKAGE_VERSION" LibVLC/"PACKAGE_VERSION" vlc-miraktest (+https://github.com/vivid-lapin/vlc-miraktest)" );
+     var_Create( p_libvlc, "app-icon-name", VLC_VAR_STRING );
+     var_SetString( p_libvlc, "app-icon-name", PACKAGE_NAME );
+     var_Create( p_libvlc, "app-id", VLC_VAR_STRING );
