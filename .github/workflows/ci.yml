@@ -41,11 +41,10 @@ jobs:
           path: vlc-build
       - name: Prepare
         run: |
-          patch -p1 < vlc-build/patches/build.sh.patch
-          patch -p1 < vlc-build/patches/aribsub.c.patch
-          patch -p1 < vlc-build/patches/mpegts.c.patch
-          patch -p1 < vlc-build/patches/configure.ac.patch
-          patch -p1 < vlc-build/patches/src_libvlc_c.patch
+          patch -p1 < vlc-build/patches/patch_mac_build_arg.patch
+          patch -p1 < vlc-build/patches/dump_aribsub.patch
+          patch -p1 < vlc-build/patches/dump_pcr.patch
+          patch -p1 < vlc-build/patches/patch_version.patch
           mkdir build
           brew install gnutls
       - name: Build
@@ -102,11 +101,10 @@ jobs:
           sudo ln -sf /usr/include/wine/wine/* /usr/include/wine
       - name: Prepare
         run: |
-          patch -p1 < vlc-build/patches/build.sh.patch
-          patch -p1 < vlc-build/patches/aribsub.c.patch
-          patch -p1 < vlc-build/patches/mpegts.c.patch
-          patch -p1 < vlc-build/patches/configure.ac.patch
-          patch -p1 < vlc-build/patches/src_libvlc_c.patch
+          patch -p1 < vlc-build/patches/patch_mac_build_arg.patch
+          patch -p1 < vlc-build/patches/dump_aribsub.patch
+          patch -p1 < vlc-build/patches/dump_pcr.patch
+          patch -p1 < vlc-build/patches/patch_version.patch
           mkdir build
       - name: Build
         run: |
