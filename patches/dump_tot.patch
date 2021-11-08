@@ -1,12 +1,12 @@
 diff --git a/modules/demux/mpeg/ts_si.c b/modules/demux/mpeg/ts_si.c
-index 14555f3bf9..43f568c4b2 100644
+index 14555f3bf9..1da0c7b8e9 100644
 --- a/modules/demux/mpeg/ts_si.c
 +++ b/modules/demux/mpeg/ts_si.c
 @@ -391,6 +391,7 @@ static void TDTCallBack( demux_t *p_demux, dvbpsi_tot_t *p_tdt )
             and considering that no-one seems to send TDT or desc 0x58,
             falling back on fixed offset is safe */
          p_sys->i_network_time += 9 * 3600;
-+        msg_Dbg(p_demux, "tot," PRId64, p_sys->i_network_time);
++        msg_Dbg(p_demux, "tot,%" PRId64, p_sys->i_network_time);
      }
  
      /* Because libdvbpsi is broken and deduplicating timestamp tables,
