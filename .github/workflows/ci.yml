@@ -16,6 +16,9 @@ on:
       - LICENSE
       - "**.md"
 
+env:
+  VLC_HASH: 5e70837d8d766db6ca5052a2d4f503ad37243d9c # 3.0.16
+
 jobs:
   actionlint:
     runs-on: ubuntu-latest
@@ -35,19 +38,26 @@ jobs:
       - uses: actions/checkout@v2
         with:
           repository: "videolan/vlc"
-          ref: 5e70837d8d766db6ca5052a2d4f503ad37243d9c # 3.0.16
+          ref: ${{ env.VLC_HASH }}
       - uses: actions/checkout@v2
         with:
           path: vlc-build
+      - uses: actions/cache@v2
+        id: build-cache
+        with:
+          path: build
+          key: ${{ runner.os }}-vlc-${{ env.VLC_HASH }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
       - name: Prepare
         run: |
           patch -p1 < vlc-build/patches/patch_mac_build_arg.patch
           patch -p1 < vlc-build/patches/dump_aribsub.patch
           patch -p1 < vlc-build/patches/dump_pcr.patch
-           patch -p1 < vlc-build/patches/dump_tot.patch
+          patch -p1 < vlc-build/patches/dump_tot.patch
           patch -p1 < vlc-build/patches/patch_version.patch
           patch -p1 < vlc-build/patches/patch_user_agent.patch
-          mkdir build
+          mkdir -p build
           brew install gnutls
       - name: Build
         run: |
@@ -88,10 +98,17 @@ jobs:
       - uses: actions/checkout@v2
         with:
           repository: "videolan/vlc"
-          ref: 5e70837d8d766db6ca5052a2d4f503ad37243d9c # 3.0.16
+          ref: ${{ env.VLC_HASH }}
       - uses: actions/checkout@v2
         with:
           path: vlc-build
+      - uses: actions/cache@v2
+        id: build-cache
+        with:
+          path: build
+          key: ${{ runner.os }}-vlc-${{ env.VLC_HASH }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
       - name: Install build tools
         run: |
           sudo apt-get update -y
@@ -106,9 +123,10 @@ jobs:
           patch -p1 < vlc-build/patches/patch_mac_build_arg.patch
           patch -p1 < vlc-build/patches/dump_aribsub.patch
           patch -p1 < vlc-build/patches/dump_pcr.patch
+          patch -p1 < vlc-build/patches/dump_tot.patch
           patch -p1 < vlc-build/patches/patch_version.patch
           patch -p1 < vlc-build/patches/patch_user_agent.patch
-          mkdir build
+          mkdir -p build
       - name: Build
         run: |
           ../extras/package/win32/build.sh -z
