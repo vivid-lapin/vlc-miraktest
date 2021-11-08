@@ -1,12 +1,12 @@
 diff --git a/modules/demux/mpeg/ts_si.c b/modules/demux/mpeg/ts_si.c
-index 14555f3bf9..1da0c7b8e9 100644
+index 14555f3bf9..72e4b3fc6e 100644
 --- a/modules/demux/mpeg/ts_si.c
 +++ b/modules/demux/mpeg/ts_si.c
-@@ -391,6 +391,7 @@ static void TDTCallBack( demux_t *p_demux, dvbpsi_tot_t *p_tdt )
+@@ -390,6 +390,7 @@ static void TDTCallBack( demux_t *p_demux, dvbpsi_tot_t *p_tdt )
+            but as there's no DST in JAPAN (since Showa 27/1952)
             and considering that no-one seems to send TDT or desc 0x58,
             falling back on fixed offset is safe */
-         p_sys->i_network_time += 9 * 3600;
 +        msg_Dbg(p_demux, "tot,%" PRId64, p_sys->i_network_time);
+         p_sys->i_network_time += 9 * 3600;
      }
  
-     /* Because libdvbpsi is broken and deduplicating timestamp tables,
