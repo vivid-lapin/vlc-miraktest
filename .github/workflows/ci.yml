@@ -44,6 +44,7 @@ jobs:
           patch -p1 < vlc-build/patches/patch_mac_build_arg.patch
           patch -p1 < vlc-build/patches/dump_aribsub.patch
           patch -p1 < vlc-build/patches/dump_pcr.patch
+           patch -p1 < vlc-build/patches/dump_tot.patch
           patch -p1 < vlc-build/patches/patch_version.patch
           patch -p1 < vlc-build/patches/patch_user_agent.patch
           mkdir build
