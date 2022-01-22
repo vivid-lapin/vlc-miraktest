@@ -30,9 +30,20 @@ jobs:
           bash <(curl https://raw.githubusercontent.com/rhysd/actionlint/main/scripts/download-actionlint.bash)
           ./actionlint -color
   build-macos:
-    runs-on: macos-latest
-
     needs: [actionlint]
+
+    strategy:
+      matrix:
+        target:
+          - x86_64
+          - aarch64
+        include:
+          - target: x86_64
+            os: macos-latest
+          - target: aarch64
+            os: macos-latest
+
+    runs-on: ${{ matrix.os }}
 
     steps:
       - uses: actions/checkout@v2
@@ -54,7 +65,7 @@ jobs:
           brew install gnutls
       - name: Build
         run: |
-          ../extras/package/macosx/build.sh -c -i n
+          ../extras/package/macosx/build.sh -c -i n -a ${{ matrix.target }}
         working-directory: ./build
       - name: Check
         run: ls -la
@@ -64,7 +75,7 @@ jobs:
       - name: Upload build artifact
         uses: actions/upload-artifact@v2
         with:
-          name: mac-build
+          name: mac-build-${{ matrix.target }}
           path: build.zip
       - name: Upload libaribsub artifact
         uses: actions/upload-artifact@v2
