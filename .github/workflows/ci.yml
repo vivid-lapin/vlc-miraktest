@@ -63,7 +63,9 @@ jobs:
           patch -p1 < vlc-build/patches/patch_user_agent.patch
           mkdir -p build
           brew install automake
-          PATH=${PATH}:$(brew --prefix gettext)/bin autoreconf -ifv
+          brew reinstall gettext
+          echo "$(brew --prefix gettext)/bin" >> $GITHUB_PATH
+          autoreconf -ifv
       - name: Build
         run: |
           ../extras/package/macosx/build.sh -c -i n -a ${{ matrix.target }}
