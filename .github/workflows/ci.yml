@@ -62,7 +62,8 @@ jobs:
           patch -p1 < vlc-build/patches/patch_version.patch
           patch -p1 < vlc-build/patches/patch_user_agent.patch
           mkdir -p build
-          brew install gnutls
+          brew install automake
+          PATH=${PATH}:$(brew --prefix gettext)/bin autoreconf -ifv
       - name: Build
         run: |
           ../extras/package/macosx/build.sh -c -i n -a ${{ matrix.target }}
