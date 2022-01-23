@@ -64,14 +64,10 @@ jobs:
           brew install automake
           brew reinstall gettext
           echo "$(brew --prefix gettext)/bin" >> $GITHUB_PATH
-          which msgmerge
           autoreconf -ifv
-          which msgmerge
           echo "$(brew --prefix)/bin" >> $GITHUB_PATH
-          which msgmerge
       - name: Build
         run: |
-          which msgmerge
           ../extras/package/macosx/build.sh -c -i n -a ${{ matrix.target }}
         working-directory: ./build
       - name: Check
