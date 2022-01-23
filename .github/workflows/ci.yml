@@ -41,6 +41,7 @@ jobs:
             os: macos-latest
           - target: aarch64
             os: macos-latest
+      fail-fast: false
 
     runs-on: ${{ matrix.os }}
 
@@ -62,10 +63,14 @@ jobs:
           patch -p1 < vlc-build/patches/patch_user_agent.patch
           mkdir -p build
           brew install automake
-          brew reinstall gettext
-          echo "$(brew --prefix gettext)/bin" >> $GITHUB_PATH
-          autoreconf -ifv
-          echo "$(brew --prefix)/bin" >> $GITHUB_PATH
+          brew unlink gettext
+      - name: gettext build
+        run: |
+          curl https://ftp.gnu.org/gnu/gettext/gettext-0.19.8.1.tar.xz | tar --strip-components=1 -xJ
+          cd gettext-tools
+          ./configure 
+          make
+          make install
       - name: Build
         run: |
           ../extras/package/macosx/build.sh -c -i n -a ${{ matrix.target }}
