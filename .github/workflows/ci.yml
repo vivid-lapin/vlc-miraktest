@@ -61,12 +61,10 @@ jobs:
           patch -p1 < vlc-build/patches/dump_tot.patch
           patch -p1 < vlc-build/patches/patch_version.patch
           patch -p1 < vlc-build/patches/patch_user_agent.patch
+          patch -p1 < vlc-build/patches/arm64.patch
           mkdir -p build
-          brew install automake
-          brew unlink gettext
       - name: Build
         run: |
-          echo "/usr/bin:/bin:/usr/sbin:/sbin" > $GITHUB_PATH
           ../extras/package/macosx/build.sh -c -i n -a ${{ matrix.target }}
         working-directory: ./build
       - name: Check

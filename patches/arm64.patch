@@ -1,0 +1,25 @@
+diff --git a/Makefile.am b/Makefile.am
+index dd282b23cc..ee02c1cbe2 100644
+--- a/Makefile.am
++++ b/Makefile.am
+@@ -169,10 +169,7 @@ if BUILD_VLC
+ ###############################################################################
+ install-exec-hook:
+ 	if test "$(build)" = "$(host)"; then \
+-		PATH="$(DESTDIR)$(bindir):$$PATH" \
+-		LD_LIBRARY_PATH="$(DESTDIR)$(libdir):$$LD_LIBRARY_PATH" \
+-		"$(DESTDIR)$(vlclibdir)/vlc-cache-gen$(EXEEXT)" \
+-			 "$(DESTDIR)$(vlclibdir)/plugins" ; \
++		echo "skip install-exec-hook" ; \
+ 	else \
+ 		echo "Cross-compilation: cache generation skipped!" ; \
+ 	fi
+@@ -210,7 +207,7 @@ lcov: lcov.out
+ .PHONY: update-po
+ 
+ update-po:
+-	cd po && $(MAKE) POTFILES vlc.pot update-po
++	echo 'no po more'
+ 
+ ###############################################################################
+ # OS Packaging rules
