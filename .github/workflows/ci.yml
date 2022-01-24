@@ -66,6 +66,7 @@ jobs:
           brew unlink gettext
       - name: Build
         run: |
+          echo "/usr/bin:/bin:/usr/sbin:/sbin" > $GITHUB_PATH
           ../extras/package/macosx/build.sh -c -i n -a ${{ matrix.target }}
         working-directory: ./build
       - name: Check
