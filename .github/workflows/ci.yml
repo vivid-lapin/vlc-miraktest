@@ -81,17 +81,17 @@ jobs:
       - name: Upload libaribsub artifact
         uses: actions/upload-artifact@v2
         with:
-          name: mac-aribsub-dylib
+          name: mac-aribsub-dylib-${{ matrix.target }}
           path: build/vlc_install_dir/lib/vlc/plugins/codec/libaribsub_plugin.dylib
       - name: Upload libts artifact
         uses: actions/upload-artifact@v2
         with:
-          name: mac-ts-dylib
+          name: mac-ts-dylib-${{ matrix.target }}
           path: build/vlc_install_dir/lib/vlc/plugins/demux/libts_plugin.dylib
       - name: Upload dmg artifact
         uses: actions/upload-artifact@v2
         with:
-          name: mac-build-image
+          name: mac-build-image-${{ matrix.target }}
           path: build/*.dmg
 
   build-windows:
