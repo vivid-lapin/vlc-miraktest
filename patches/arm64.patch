@@ -1,25 +1,13 @@
-diff --git a/Makefile.am b/Makefile.am
-index dd282b23cc..ee02c1cbe2 100644
---- a/Makefile.am
-+++ b/Makefile.am
-@@ -169,10 +169,7 @@ if BUILD_VLC
- ###############################################################################
- install-exec-hook:
- 	if test "$(build)" = "$(host)"; then \
--		PATH="$(DESTDIR)$(bindir):$$PATH" \
--		LD_LIBRARY_PATH="$(DESTDIR)$(libdir):$$LD_LIBRARY_PATH" \
--		"$(DESTDIR)$(vlclibdir)/vlc-cache-gen$(EXEEXT)" \
--			 "$(DESTDIR)$(vlclibdir)/plugins" ; \
-+		echo "skip install-exec-hook" ; \
- 	else \
- 		echo "Cross-compilation: cache generation skipped!" ; \
- 	fi
-@@ -210,7 +207,7 @@ lcov: lcov.out
- .PHONY: update-po
+diff --git a/po/Makefile.in.in b/po/Makefile.in.in
+index 38c293d2ed..900d3396dd 100644
+--- a/po/Makefile.in.in
++++ b/po/Makefile.in.in
+@@ -112,7 +112,7 @@ DISTFILESDEPS = $(DISTFILESDEPS_$(DIST_DEPENDS_ON_UPDATE_PO))
  
- update-po:
--	cd po && $(MAKE) POTFILES vlc.pot update-po
-+	echo 'no po more'
+ all: all-@USE_NLS@
  
- ###############################################################################
- # OS Packaging rules
+-all-yes: stamp-po
++all-yes:
+ all-no:
+ 
+ # Ensure that the gettext macros and this Makefile.in.in are in sync.
