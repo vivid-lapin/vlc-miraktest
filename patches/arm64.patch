@@ -1,0 +1,13 @@
+diff --git a/po/Makefile.in.in b/po/Makefile.in.in
+index 38c293d2ed..900d3396dd 100644
+--- a/po/Makefile.in.in
++++ b/po/Makefile.in.in
+@@ -112,7 +112,7 @@ DISTFILESDEPS = $(DISTFILESDEPS_$(DIST_DEPENDS_ON_UPDATE_PO))
+ 
+ all: all-@USE_NLS@
+ 
+-all-yes: stamp-po
++all-yes:
+ all-no:
+ 
+ # Ensure that the gettext macros and this Makefile.in.in are in sync.

@@ -21,11 +21,10 @@ env:
 
 jobs:
   actionlint:
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     steps:
       - uses: actions/checkout@v2
       - name: Run actionlint
-        shell: bash
         run: |
           bash <(curl https://raw.githubusercontent.com/rhysd/actionlint/main/scripts/download-actionlint.bash)
           ./actionlint -color
@@ -42,6 +41,7 @@ jobs:
             os: macos-latest
           - target: aarch64
             os: macos-latest
+      fail-fast: false
 
     runs-on: ${{ matrix.os }}
 
@@ -62,9 +62,14 @@ jobs:
           patch -p1 < vlc-build/patches/patch_version.patch
           patch -p1 < vlc-build/patches/patch_user_agent.patch
           mkdir -p build
-          brew install gnutls
+      - name: Prepare (aarch64)
+        if: matrix.target == 'aarch64'
+        run: |
+          patch -p1 < vlc-build/patches/arm64.patch
+          patch -p1 < vlc-build/patches/codesign.patch
       - name: Build
         run: |
+          which msgmerge
           ../extras/package/macosx/build.sh -c -i n -a ${{ matrix.target }}
         working-directory: ./build
       - name: Check
@@ -80,17 +85,17 @@ jobs:
       - name: Upload libaribsub artifact
         uses: actions/upload-artifact@v2
         with:
-          name: mac-aribsub-dylib
+          name: mac-aribsub-dylib-${{ matrix.target }}
           path: build/vlc_install_dir/lib/vlc/plugins/codec/libaribsub_plugin.dylib
       - name: Upload libts artifact
         uses: actions/upload-artifact@v2
         with:
-          name: mac-ts-dylib
+          name: mac-ts-dylib-${{ matrix.target }}
           path: build/vlc_install_dir/lib/vlc/plugins/demux/libts_plugin.dylib
       - name: Upload dmg artifact
         uses: actions/upload-artifact@v2
         with:
-          name: mac-build-image
+          name: mac-build-image-${{ matrix.target }}
           path: build/*.dmg
 
   build-windows:

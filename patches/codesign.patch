@@ -1,0 +1,13 @@
+diff --git a/extras/package/macosx/package.mak b/extras/package/macosx/package.mak
+index 31d8ba665d..f4b837530d 100644
+--- a/extras/package/macosx/package.mak
++++ b/extras/package/macosx/package.mak
+@@ -65,7 +65,7 @@ endif
+ 	fi
+ 	find $@ -type d -exec chmod ugo+rx '{}' \;
+ 	find $@ -type f -exec chmod ugo+r '{}' \;
+-
++	codesign --force --deep -s - $@
+ 
+ package-macosx: VLC.app
+ 	rm -f "$(top_builddir)/vlc-$(VERSION).dmg"
