@@ -7,7 +7,7 @@ index 8c16fb711f..de6a6c8969 100755
  spushd "${vlcroot}/contrib"
  mkdir -p contrib-$HOST_TRIPLET && cd contrib-$HOST_TRIPLET
 -../bootstrap --build=$BUILD_TRIPLET --host=$HOST_TRIPLET > $out
-+../bootstrap --build=$BUILD_TRIPLET --host=$HOST_TRIPLET --disable-libarchive --disable-securetransport --enable-gnutls --disable-postproc > $out
++../bootstrap --build=$BUILD_TRIPLET --host=$HOST_TRIPLET --disable-libarchive --disable-securetransport --enable-gnutls > $out
  if [ "$REBUILD" = "yes" ]; then
      make clean
  fi

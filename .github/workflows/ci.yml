@@ -69,6 +69,7 @@ jobs:
           patch -p1 < vlc-build/patches/codesign.patch
       - name: Build
         run: |
+          which msgmerge
           ../extras/package/macosx/build.sh -c -i n -a ${{ matrix.target }}
         working-directory: ./build
       - name: Check
