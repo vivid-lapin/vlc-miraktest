@@ -60,8 +60,7 @@ jobs:
       - name: Prepare (aarch64)
         if: matrix.target == 'aarch64'
         run: |
-          patch -p1 < vlc-build/patches/arm64.patch
-          patch -p1 < vlc-build/patches/codesign.patch
+          git apply vlc-build/patches/arm64/*.patch
       - name: Build
         run: |
           which msgmerge
