@@ -17,7 +17,7 @@ on:
       - "**.md"
 
 env:
-  VLC_HASH: c4ab31d5f0d5d0ba298706241d5b67ae49215935 # 3.0.17.2
+  VLC_HASH: 5f74392dcbac45ab762adbae6c6e49cd02fa5029 # HEAD of libaribcaption
 
 jobs:
   actionlint:
