@@ -55,12 +55,7 @@ jobs:
           path: vlc-build
       - name: Prepare
         run: |
-          git apply vlc-build/patches/*.patch
           mkdir -p build
-      - name: Prepare (aarch64)
-        if: matrix.target == 'aarch64'
-        run: |
-          git apply vlc-build/patches/arm64/*.patch
       - name: Build
         run: |
           which msgmerge
@@ -116,7 +111,6 @@ jobs:
           sudo ln -sf /usr/include/wine/wine/* /usr/include/wine
       - name: Prepare
         run: |
-          git apply vlc-build/patches/*.patch
           mkdir -p build
       - name: Build
         run: |
