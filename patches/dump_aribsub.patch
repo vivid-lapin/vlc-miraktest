@@ -41,3 +41,25 @@ index 46272ea175..2e40323a1f 100644
      }
  
      block_Release( p_block );
+diff --git a/modules/demux/mpeg/ts_psi.c b/modules/demux/mpeg/ts_psi.c
+index 054a019bd4..6e6dbef22d 100644
+--- a/modules/demux/mpeg/ts_psi.c
++++ b/modules/demux/mpeg/ts_psi.c
+@@ -399,7 +399,7 @@ static ts_standards_e ProbePMTStandard( const dvbpsi_pmt_t *p_dvbpsipmt )
+             {
+                 const uint16_t i_data_component_id = GetWBE(p_dr->p_data);
+                 if( ( i_data_component_id == 0x0008 &&
+-                      PMTEsHasComponentTagBetween( p_dvbpsies, 0x30, 0x37 ) ) ||
++                      PMTEsHasComponentTagBetween( p_dvbpsies, 0x30, 0x88 ) ) ||
+                     ( i_data_component_id == 0x0012 &&
+                       PMTEsHasComponentTagBetween( p_dvbpsies, 0x87, 0x88 ) ) )
+                     return TS_STANDARD_ARIB;
+@@ -1078,7 +1078,7 @@ static void PMTSetupEs0x06( demux_t *p_demux, ts_stream_t *p_pes,
+             /* See STD-B10 Annex J, table J-1 mappings */
+             const uint16_t i_data_component_id = GetWBE(p_dr->p_data);
+             if( i_data_component_id == 0x0008 &&
+-                PMTEsHasComponentTagBetween( p_dvbpsies, 0x30, 0x37 ) )
++                PMTEsHasComponentTagBetween( p_dvbpsies, 0x30, 0x88 ) )
+             {
+                 es_format_Change( p_fmt, SPU_ES, VLC_CODEC_ARIB_A );
+                 p_fmt->psz_language = strndup ( "jpn", 3 );
