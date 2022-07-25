@@ -28,71 +28,7 @@ jobs:
         run: |
           bash <(curl https://raw.githubusercontent.com/rhysd/actionlint/main/scripts/download-actionlint.bash)
           ./actionlint -color
-  build-macos:
-    needs: [actionlint]
-
-    strategy:
-      matrix:
-        target:
-          - x86_64
-          - aarch64
-        include:
-          - target: x86_64
-            os: macos-latest
-          - target: aarch64
-            os: macos-latest
-      fail-fast: false
-
-    runs-on: ${{ matrix.os }}
-
-    steps:
-      - uses: actions/checkout@v2
-        with:
-          repository: "videolan/vlc"
-          ref: ${{ env.VLC_HASH }}
-      - uses: actions/checkout@v2
-        with:
-          path: vlc-build
-      - name: Prepare
-        run: |
-          git apply vlc-build/patches/*.patch
-          mkdir -p build
-      - name: Prepare (aarch64)
-        if: matrix.target == 'aarch64'
-        run: |
-          git apply vlc-build/patches/arm64/*.patch
-      - name: Build
-        run: |
-          which msgmerge
-          ../extras/package/macosx/build.sh -c -i n -a ${{ matrix.target }}
-        working-directory: ./build
-      - name: Check
-        run: ls -la
-        working-directory: ./build
-      - name: Pack build artifact
-        run: zip -rq build.zip ./build
-      - name: Upload build artifact
-        uses: actions/upload-artifact@v2
-        with:
-          name: mac-build-${{ matrix.target }}
-          path: build.zip
-      - name: Upload libaribsub artifact
-        uses: actions/upload-artifact@v2
-        with:
-          name: mac-aribsub-dylib-${{ matrix.target }}
-          path: build/vlc_install_dir/lib/vlc/plugins/codec/libaribsub_plugin.dylib
-      - name: Upload libts artifact
-        uses: actions/upload-artifact@v2
-        with:
-          name: mac-ts-dylib-${{ matrix.target }}
-          path: build/vlc_install_dir/lib/vlc/plugins/demux/libts_plugin.dylib
-      - name: Upload dmg artifact
-        uses: actions/upload-artifact@v2
-        with:
-          name: mac-build-image-${{ matrix.target }}
-          path: build/*.dmg
-
-  build-windows:
+  build-linux:
     runs-on: ubuntu-latest
 
     needs: [actionlint]
@@ -107,34 +43,184 @@ jobs:
           path: vlc-build
       - name: Install build tools
         run: |
-          sudo apt-get update -y
-          sudo apt-get install \
-            gcc-mingw-w64-x86-64 g++-mingw-w64-x86-64 mingw-w64-tools \
-            lua5.2 libtool automake autoconf autopoint make gettext pkg-config \
-            wine64-development-tools libwine-dev \
-            gperf
-          sudo ln -sf /usr/include/wine/wine/* /usr/include/wine
+          sudo sed -i.back -e "s/^# deb-src/deb-src/g" /etc/apt/sources.list
+          sudo apt update -y
+          sudo apt install \
+            git g++ make libtool automake autopoint pkg-config flex bison lua5.2
+          sudo apt build-dep vlc
       - name: Prepare
         run: |
+          ./bootstrap
           git apply vlc-build/patches/*.patch
           mkdir -p build
+      - name: Configure
+        run: |
+          ./configure \
+            --prefix $PWD/build \
+            --disable-archive \
+            --disable-live555 \
+            --disable-dc1394 \
+            --disable-dv1394 \
+            --disable-linsys \
+            --disable-dvdread \
+            --disable-dvdnav \
+            --disable-bluray \
+            --disable-opencv \
+            --disable-smbclient \
+            --disable-dsm \
+            --disable-sftp \
+            --disable-nfs \
+            --disable-smb2 \
+            --disable-v4l2 \
+            --disable-decklink \
+            --disable-vcd \
+            --disable-libcddb \
+            --disable-screen \
+            --disable-vnc \
+            --disable-freerdp \
+            --disable-realrtsp \
+            --disable-macosx-avfoundation \
+            --disable-asdcp \
+            --enable-dvbpsi \
+            --disable-gme \
+            --disable-sid \
+            --disable-ogg \
+            --disable-shout \
+            --disable-matroska \
+            --disable-mod \
+            --disable-mpc \
+            --disable-wma-fixed \
+            --disable-shine \
+            --disable-omxil \
+            --disable-omxil-vout \
+            --disable-rpi-omxil \
+            --disable-crystalhd \
+            --disable-mad \
+            --disable-mpg123 \
+            --disable-gst-decode \
+            --disable-merge-ffmpeg \
+            --enable-avcodec \
+            --disable-libva \
+            --disable-dxva2 \
+            --disable-d3d11va \
+            --enable-avformat \
+            --enable-swscale \
+            --disable-postproc \
+            --disable-faad \
+            --disable-aom \
+            --disable-dav1d \
+            --disable-vpx \
+            --disable-twolame \
+            --disable-fdkaac \
+            --disable-a52 \
+            --disable-dca \
+            --disable-flac \
+            --enable-libmpeg2 \
+            --disable-vorbis \
+            --disable-tremor \
+            --disable-speex \
+            --disable-opus \
+            --disable-spatialaudio \
+            --disable-theora \
+            --disable-oggspots \
+            --disable-daala \
+            --disable-schroedinger \
+            --disable-png \
+            --disable-jpeg \
+            --disable-bpg \
+            --disable-x262 \
+            --enable-x265 \
+            --enable-x264 \
+            --disable-x26410b \
+            --disable-mfx \
+            --disable-fluidsynth \
+            --disable-fluidlite \
+            --disable-zvbi \
+            --disable-telx \
+            --disable-libass \
+            --enable-aribsub \
+            --disable-aribb25 \
+            --disable-kate \
+            --disable-tiger \
+            --disable-css \
+            --disable-gles2 \
+            --without-x \
+            --disable-xcb \
+            --disable-xvideo \
+            --disable-vdpau \
+            --disable-wayland \
+            --disable-sdl-image \
+            --disable-freetype \
+            --disable-fribidi \
+            --disable-harfbuzz \
+            --disable-fontconfig \
+            --disable-svg \
+            --disable-svgdec \
+            --disable-directx \
+            --disable-aa \
+            --disable-caca \
+            --disable-kva \
+            --disable-mmal \
+            --disable-evas \
+            --enable-pulse \
+            --disable-alsa \
+            --disable-oss \
+            --disable-sndio \
+            --disable-wasapi \
+            --disable-jack \
+            --disable-opensles \
+            --disable-tizen-audio \
+            --disable-samplerate \
+            --disable-soxr \
+            --disable-kai \
+            --disable-chromaprint \
+            --disable-chromecast \
+            --disable-qt \
+            --disable-skins2 \
+            --disable-libtar \
+            --disable-macosx \
+            --disable-sparkle \
+            --disable-minimal-macosx \
+            --disable-ncurses \
+            --disable-lirc \
+            --disable-srt \
+            --disable-goom \
+            --disable-projectm \
+            --disable-vsxu \
+            --disable-avahi \
+            --disable-udev \
+            --disable-mtp \
+            --disable-upnp \
+            --disable-microdns \
+            --enable-libxml2 \
+            --disable-libgcrypt \
+            --enable-gnutls \
+            --disable-taglib \
+            --disable-secret \
+            --disable-kwallet \
+            --disable-update-check \
+            --disable-osx-notifications \
+            --disable-notify \
+            --enable-libplacebo \
+            --disable-vlc
       - name: Build
         run: |
-          ../extras/package/win32/build.sh -z
-        working-directory: ./build
+          export CFLAGS="-march=x86-64 -mtune=generic -O2 -pipe -fno-plt -fexceptions \
+                          -Wp,-D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security \
+                          -fstack-clash-protection -fcf-protection"
+          export CXXFLAGS="$CFLAGS -Wp,-D_GLIBCXX_ASSERTIONS"
+          export MAKEFLAGS="-j2"
+          make
       - name: Packaging
         run: |
-          make package-win32-zip
-        working-directory: ./build/win64
+          make install
       - name: Check
         run: ls -la
-        working-directory: ./build/win64
+        working-directory: ./build/lib
       - name: Upload build artifact
         uses: actions/upload-artifact@v2
         with:
-          name: windows-build
+          name: linux-build
           path: |
-            build/win64/vlc-3.0.17.2/*.txt
-            build/win64/vlc-3.0.17.2/libvlc.dll
-            build/win64/vlc-3.0.17.2/libvlccore.dll
-            build/win64/vlc-3.0.17.2/plugins
+            build/lib/libvlccore.so.9.0.0
+            build/lib/libvlc.so.5.6.0
