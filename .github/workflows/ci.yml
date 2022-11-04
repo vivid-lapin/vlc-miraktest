@@ -23,7 +23,7 @@ jobs:
   actionlint:
     runs-on: macos-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Run actionlint
         run: |
           bash <(curl https://raw.githubusercontent.com/rhysd/actionlint/main/scripts/download-actionlint.bash)
@@ -46,11 +46,11 @@ jobs:
     runs-on: ${{ matrix.os }}
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           repository: "videolan/vlc"
           ref: ${{ env.VLC_HASH }}
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           path: vlc-build
       - name: Prepare
@@ -72,22 +72,22 @@ jobs:
       - name: Pack build artifact
         run: zip -rq build.zip ./build
       - name: Upload build artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: mac-build-${{ matrix.target }}
           path: build.zip
       - name: Upload libaribsub artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: mac-aribsub-dylib-${{ matrix.target }}
           path: build/vlc_install_dir/lib/vlc/plugins/codec/libaribsub_plugin.dylib
       - name: Upload libts artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: mac-ts-dylib-${{ matrix.target }}
           path: build/vlc_install_dir/lib/vlc/plugins/demux/libts_plugin.dylib
       - name: Upload dmg artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: mac-build-image-${{ matrix.target }}
           path: build/*.dmg
@@ -98,11 +98,11 @@ jobs:
     needs: [actionlint]
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           repository: "videolan/vlc"
           ref: ${{ env.VLC_HASH }}
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           path: vlc-build
       - name: Install build tools
@@ -130,7 +130,7 @@ jobs:
         run: ls -la
         working-directory: ./build/win64
       - name: Upload build artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: windows-build
           path: |
