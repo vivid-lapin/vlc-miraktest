@@ -17,7 +17,7 @@ on:
       - "**.md"
 
 env:
-  VLC_HASH: c4ab31d5f0d5d0ba298706241d5b67ae49215935 # 3.0.17.2
+  VLC_HASH: e9eceaed4d838dbd84638bfb2e4bdd08294163b1 # 3.0.18
 
 jobs:
   actionlint:
@@ -134,7 +134,7 @@ jobs:
         with:
           name: windows-build
           path: |
-            build/win64/vlc-3.0.17.2/*.txt
-            build/win64/vlc-3.0.17.2/libvlc.dll
-            build/win64/vlc-3.0.17.2/libvlccore.dll
-            build/win64/vlc-3.0.17.2/plugins
+            build/win64/vlc-3.*/*.txt
+            build/win64/vlc-3.*/libvlc.dll
+            build/win64/vlc-3.*/libvlccore.dll
+            build/win64/vlc-3.*/plugins
