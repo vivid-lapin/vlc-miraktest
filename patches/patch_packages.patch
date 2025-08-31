@@ -23,3 +23,15 @@ index 596636b..4ca7d98 100644
  AUTOCONF_URL=$(GNU)/autoconf/autoconf-$(AUTOCONF_VERSION).tar.gz
  
  AUTOMAKE_VERSION=1.16.5
+diff --git a/extras/tools/tools.mak b/extras/tools/tools.mak
+index cd88250..9e79a30 100644
+--- a/extras/tools/tools.mak
++++ b/extras/tools/tools.mak
+@@ -34,6 +34,7 @@ SHA512SUM = openssl dgst -sha512
+ else
+ SHA512SUM = $(error SHA-512 checksumming not found!)
+ endif
++SHA512SUM = /opt/homebrew/opt/coreutils/libexec/gnubin/sha512sum -c
+ 
+ download_pkg = $(call download,$(VIDEOLAN)/$(2)/$(lastword $(subst /, ,$(@)))) || \
+ 	( $(call download,$(1)) && echo "Please upload package $(lastword $(subst /, ,$(@))) to our FTP" )  \
