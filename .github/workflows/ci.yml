@@ -11,8 +11,8 @@ on:
       - "**.md"
 
 env:
-  VLC_HASH: dd8bfdbabe8ae3974ca3864ad3125879f523e3a2 # 3.0.21
-
+  VLC_HASH: dfbec325520e36c83775c74120fdb3e5e38f35f6
+  LIBARIBCAPTION_HASH: 0a3a209d3f0b3650b92941248b9701bf69584a1f # 1.1.1
 jobs:
   build-macos:
     strategy:
@@ -37,6 +37,19 @@ jobs:
       - uses: actions/checkout@v4
         with:
           path: vlc-build
+      - uses: actions/checkout@v4
+        with:
+          repository: "xqq/libaribcaption"
+          ref: ${{ env.LIBARIBCAPTION_HASH }}
+          path: libaribcaption
+      - name: Install libaribcaption
+        run: |
+          mkdir build
+          cd build
+          cmake .. -DCMAKE_BUILD_TYPE=Release
+          cmake --build . -j8
+          cmake --install . --prefix /usr/local
+        working-directory: libaribcaption
       - name: Prepare
         run: |
           brew install coreutils
@@ -52,6 +65,7 @@ jobs:
           which msgmerge
           which sha512sum
           sha512sum --version
+          export MACOSX_DEPLOYMENT_TARGET=15.4
           ../extras/package/macosx/build.sh -c -i n -a ${{ matrix.target }}
         working-directory: ./build
       - name: Check

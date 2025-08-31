@@ -1,0 +1,14 @@
+diff --git a/contrib/src/ffmpeg/rules.mak b/contrib/src/ffmpeg/rules.mak
+index d0b72a5..52d794d 100644
+--- a/contrib/src/ffmpeg/rules.mak
++++ b/contrib/src/ffmpeg/rules.mak
+@@ -43,7 +43,8 @@ FFMPEGCONF = \
+ 	--disable-bzlib \
+ 	--disable-libvpx \
+ 	--disable-avresample \
+-	--enable-bsf=vp9_superframe
++	--enable-bsf=vp9_superframe \
++	--enable-libaribcaption
+ 
+ ifdef USE_FFMPEG
+ FFMPEGCONF += \
